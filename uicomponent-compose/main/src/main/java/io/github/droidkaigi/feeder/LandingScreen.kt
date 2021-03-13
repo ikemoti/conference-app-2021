@@ -13,7 +13,7 @@ import io.github.droidkaigi.feeder.core.theme.ConferenceAppFeederTheme
 import io.github.droidkaigi.feeder.main.R
 import kotlinx.coroutines.delay
 
-private const val SplashWaitTime: Long = 2000
+private const val SplashWaitTime: Long = 1500
 
 @Composable
 fun LandingScreen(modifier: Modifier = Modifier, onTimeout: () -> Unit) {
@@ -25,7 +25,8 @@ fun LandingScreen(modifier: Modifier = Modifier, onTimeout: () -> Unit) {
         Image(
             painter = painterResource(id = R.drawable.ic_logo_big),
             contentDescription = "landing",
-            modifier = Modifier.fillMaxSize(0.5F)
+            modifier = modifier
+
         )
     }
 }

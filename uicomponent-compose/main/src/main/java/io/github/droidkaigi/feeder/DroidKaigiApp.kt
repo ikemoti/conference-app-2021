@@ -1,6 +1,8 @@
 package io.github.droidkaigi.feeder
 
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
@@ -11,6 +13,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.scale
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import io.github.droidkaigi.feeder.core.theme.ConferenceAppFeederTheme
 import io.github.droidkaigi.feeder.core.use
@@ -19,6 +22,15 @@ import io.github.droidkaigi.feeder.core.use
 fun DroidKaigiApp(firstSplashScreenState: SplashState = SplashState.Shown) {
     ProvideAppViewModel(viewModel = appViewModel()) {
         val (state) = use(appViewModel())
+        val splashAnimation by animateFloatAsState(
+            targetValue = 4f,
+            animationSpec = keyframes {
+                durationMillis = 1500
+                1f at 0
+                0.7f at 800 // ms
+                4f at 1500 // ms
+            })
+
 
         ConferenceAppFeederTheme(state.theme) {
             var splashShown by rememberSaveable {
@@ -38,7 +50,7 @@ fun DroidKaigiApp(firstSplashScreenState: SplashState = SplashState.Shown) {
 
             Box {
                 LandingScreen(
-                    modifier = Modifier.alpha(splashAlpha),
+                    modifier = Modifier.scale(splashAnimation),
                 ) {
                     splashShown = SplashState.Completed
                 }
@@ -46,7 +58,7 @@ fun DroidKaigiApp(firstSplashScreenState: SplashState = SplashState.Shown) {
             AppContent(
                 modifier = Modifier
                     .alpha(contentAlpha)
-                    .navigationBarsPadding(bottom = false)
+//                    .navigationBarsPadding(bottom = false)
             )
         }
     }
